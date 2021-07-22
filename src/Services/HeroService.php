@@ -2,17 +2,19 @@
 namespace App\Services;
 
 use App\Entity\Hero;
-
+use Doctrine\ORM\EntityManagerInterface;
 
 class HeroService
 {
+    private $_entityManager;
     private $_listeHeros=[];
 
-    public function __construct()
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->addHero(new Hero('Rogers','Steve',false,'Captain Americana', 'Un maigrichon dopé par  l armee'));
+        $this->_entityManager= $em;
+        $this->addHero(new Hero('Rogers','Steve',true,'Captain Americana', 'Un maigrichon dopé par  l armee'));
         $this->addHero(new Hero('Romanof','Natasha',false,'La Veuve Noire', 'La james bond girl qui a pris la place de 007'));
-    
+       
     }
     public function getList()
     {
@@ -21,6 +23,9 @@ class HeroService
     public function addHero($pHero)
     {
         array_push($this->_listeHeros,$pHero);
+        $this->_entityManager->persist($pHero);
+        $this->_entityManager->flush();
+
     }
     public function getHero($pId)
     {

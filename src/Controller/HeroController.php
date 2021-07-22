@@ -30,6 +30,11 @@ class HeroController extends AbstractController
         ]
         );
     }
+    
+    public function newHero():Response
+    {
+        return $this->render('hero/creer.html.twig',[]);
+    }
 
 
 }
