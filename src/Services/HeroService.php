@@ -12,9 +12,7 @@ class HeroService
     public function __construct(EntityManagerInterface $em)
     {
         $this->_entityManager= $em;
-        $this->addHero(new Hero('Rogers','Steve',true,'Captain Americana', 'Un maigrichon dopé par  l armee'));
-        $this->addHero(new Hero('Romanof','Natasha',false,'La Veuve Noire', 'La james bond girl qui a pris la place de 007'));
-       
+        $this->_listeHeros = $this->_entityManager->getRepository(Hero::class)->findAll();
     }
     public function getList()
     {
@@ -29,7 +27,7 @@ class HeroService
     }
     public function getHero($pId)
     {
-        $find = false;
+       /* $find = false;
         $hero = null;
         $i = 0; 
         while (($i < count($this->_listeHeros))&& $find == false)
@@ -41,6 +39,21 @@ class HeroService
             }
             $i++;
         }
+        return  ['found'=>$find,'hero'=>$hero];*/
+        $find = false;
+        $hero = $this->_entityManager->getRepository(Hero::class)->find($pId);
+        if (isset($hero))
+            $find = true;
         return  ['found'=>$find,'hero'=>$hero];
+    }
+    public function delHero($pId)
+    {
+        $hero = $this->getHero($pId);
+        if ($hero['found']== true)
+        {
+            $this->_entityManager->remove($hero['hero']);
+            $this->_entityManager->flush();
+        }
+        
     }
 }

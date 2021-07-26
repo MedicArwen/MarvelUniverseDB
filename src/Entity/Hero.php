@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Hero
 {
     /**
+     * fse ferfref e
+     */
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")

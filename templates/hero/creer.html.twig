@@ -1,3 +1,4 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello HeroController!{% endblock %}
@@ -9,11 +10,6 @@
 </style>
 
 <div class="example-wrapper">
-   {% for hero in heroList %}
-   <li>{{hero.pseudo}}
-   <a href="/hero/{{hero.getId()}}"><button>détails</button></a>
-   </li>
-   {% endfor %}
- 
+{{form(formulaire)}}
 </div>
 {% endblock %}
