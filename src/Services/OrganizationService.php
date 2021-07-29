@@ -1,32 +1,32 @@
 <?php
 namespace App\Services;
 
-use App\Entity\Hero;
+use App\Entity\Organization;
 use Doctrine\ORM\EntityManagerInterface;
 
-class HeroService
+class OrganizationService
 {
     private $_entityManager;
-    private $_listeHeros=[];
+    private $_listeOrgas=[];
 
     public function __construct(EntityManagerInterface $em)
     {
         $this->_entityManager= $em;
-        $this->_listeHeros = $this->_entityManager->getRepository(Hero::class)->findAll();
+        $this->_listeOrgas = $this->_entityManager->getRepository(Organization::class)->findAll();
     }
     public function getList()
     {
-        return $this->_listeHeros;
+        return $this->_listeOrgas;
     }
-    public function addHero($pHero)
+    public function addOrga($pOrga)
     {
-        array_push($this->_listeHeros,$pHero);
-        $this->_entityManager->persist($pHero);
+        array_push($this->_listeOrgas,$pOrga);
+        $this->_entityManager->persist($pOrga);
         $this->_entityManager->flush();
 
     }
 
-    public function getHero($pId)
+    public function getOrga($pId)
     {
        /* $find = false;
         $hero = null;
@@ -42,17 +42,17 @@ class HeroService
         }
         return  ['found'=>$find,'hero'=>$hero];*/
         $find = false;
-        $hero = $this->_entityManager->getRepository(Hero::class)->find($pId);
-        if (isset($hero))
+        $orga = $this->_entityManager->getRepository(Organization::class)->find($pId);
+        if (isset($orga))
             $find = true;
-        return  ['found'=>$find,'hero'=>$hero];
+        return  ['found'=>$find,'orga'=>$orga];
     }
-    public function delHero($pId)
+    public function delOrga($pId)
     {
-        $hero = $this->getHero($pId);
-        if ($hero['found']== true)
+        $orga = $this->getOrga($pId);
+        if ($orga['found']== true)
         {
-            $this->_entityManager->remove($hero['hero']);
+            $this->_entityManager->remove($orga['orga']);
             $this->_entityManager->flush();
         }
         

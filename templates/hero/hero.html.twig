@@ -13,5 +13,6 @@
 <p>{{hero.getFirstName()}} {{hero.getName()}}</p>
 <a href="/hero/delete/{{hero.getId()}}"><button type="submit">supprimer</button>
 </a>
+<img src="{{ asset('uploads/pictures/' ~ hero.picture) }}">
 </div>
 {% endblock %}

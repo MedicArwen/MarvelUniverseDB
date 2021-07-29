@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrganizationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +28,16 @@ class Organization
      * @ORM\Column(type="string", length=255)
      */
     private $city;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Hero::class, mappedBy="organisations")
+     */
+    private $heroes;
+
+    public function __construct()
+    {
+        $this->heroes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -54,5 +66,36 @@ class Organization
         $this->city = $city;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Hero[]
+     */
+    public function getHeroes(): Collection
+    {
+        return $this->heroes;
+    }
+
+    public function addHero(Hero $hero): self
+    {
+        if (!$this->heroes->contains($hero)) {
+            $this->heroes[] = $hero;
+            $hero->addOrganisation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHero(Hero $hero): self
+    {
+        if ($this->heroes->removeElement($hero)) {
+            $hero->removeOrganisation($this);
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->name;
     }
 }
